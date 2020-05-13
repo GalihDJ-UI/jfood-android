@@ -2,8 +2,6 @@ package galih.dj.jfood_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.app.ExpandableListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListAdapter;
@@ -12,6 +10,7 @@ import android.widget.ExpandableListView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import android.app.AlertDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +21,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
 {
+
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     private ArrayList<Seller> listSeller = new ArrayList<>();
@@ -33,9 +33,10 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ExpandableListView expListView = null;
-        MainListAdapter listAdapter = new MainListAdapter(MainActivity.this, listSeller, childMapping);
-        expListView.setAdapter(listAdapter);
+        expListView = findViewById(R.id.lvExp);
+        refreshList();
+
+
     }
 
     protected void refreshList()
@@ -48,10 +49,10 @@ public class MainActivity extends AppCompatActivity
                 try
                 {
                     JSONArray jsonResponse = new JSONArray(response);
-
-                    for (int i = 0; i < jsonResponse.length(); i++)
+                    for (int i=0; i<jsonResponse.length(); i++)
                     {
                         AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+
                         JSONObject food = jsonResponse.getJSONObject(i);
                         JSONObject seller = food.getJSONObject("seller");
                         JSONObject location = seller.getJSONObject("location");
@@ -59,14 +60,16 @@ public class MainActivity extends AppCompatActivity
                         Location newLocation = new Location(
                                 location.getString("province"),
                                 location.getString("description"),
-                                location.getString("city"));
+                                location.getString("city")
+                        );
 
                         Seller newSeller = new Seller(
                                 seller.getInt("id"),
                                 seller.getString("name"),
                                 seller.getString("email"),
                                 seller.getString("phoneNumber"),
-                                newLocation);
+                                newLocation
+                        );
 
                         Log.e("SELLER", seller.getString("name"));
 
@@ -75,14 +78,15 @@ public class MainActivity extends AppCompatActivity
                                 food.getString("name"),
                                 newSeller,
                                 food.getInt("price"),
-                                food.getString("category"));
+                                food.getString("category")
+                        );
 
                         foodIdList.add(newFood);
 
                         boolean status = true;
-                        for(Seller sellerStat : listSeller)
+                        for(Seller sel : listSeller)
                         {
-                            if(sellerStat.getId() == newSeller.getId())
+                            if(sel.getId() == newSeller.getId())
                             {
                                 status = false;
                             }
@@ -93,26 +97,32 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
 
-                    for (Seller sel : listSeller)
+                    for(Seller sel : listSeller)
                     {
-                        ArrayList<Food> temp = new ArrayList<>();
-                        for (Food food : foodIdList)
+                        ArrayList<Food> tempFoodList = new ArrayList<>();
+                        for(Food foodPtr : foodIdList)
                         {
-                            if(food.getSeller().getId() == sel.getId())
+                            if(foodPtr.getSeller().getId() == sel.getId())
                             {
-                                temp.add(food);
+                                tempFoodList.add(foodPtr);
                             }
                         }
-                        childMapping.put(sel, temp);
+                        childMapping.put(sel, tempFoodList);
                     }
-                }
 
+                    Log.e("SELLER", listSeller.toString());
+
+                    listAdapter = new MainListAdapter(MainActivity.this, listSeller, childMapping);
+                    expListView.setAdapter(listAdapter);
+                }
                 catch (JSONException e)
                 {
-                    e.printStackTrace();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("Load Data Failed.").create().show();
                 }
             }
         };
+
         MenuRequest menuRequest = new MenuRequest(responseListener);
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         queue.add(menuRequest);

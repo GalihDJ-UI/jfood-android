@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -29,9 +31,6 @@ public class LoginActivity extends AppCompatActivity
         final EditText password_log = findViewById(R.id.password_log);
         final Button btnLogin = findViewById(R.id.btnLogin);
         final TextView tvRegister = findViewById(R.id.tvRegister);
-        Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-        startActivity(intent);
-
 
         btnLogin.setOnClickListener(new View.OnClickListener()
         {
@@ -51,6 +50,9 @@ public class LoginActivity extends AppCompatActivity
                             if (jsonObject != null)
                             {
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(loginIntent);
+                                finish();
                             }
                         }
                         catch (JSONException e)
@@ -60,13 +62,18 @@ public class LoginActivity extends AppCompatActivity
                     }
                 };
 
-
+                Response.ErrorListener errorListener = new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        Log.d("ERROR", "Error occurred", error);
+                    }
+                };
                 LoginRequest loginRequest = new LoginRequest(email, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(loginRequest);
 
-                Intent mainIntent = new Intent (LoginActivity.this, MainActivity.class);
-                startActivity(mainIntent);
             }
         });
 
