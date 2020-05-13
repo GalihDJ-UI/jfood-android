@@ -53,8 +53,8 @@ public class MainListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
-
-        txtListChild.setText(childText);
+        //String s = "[" + childText.getId() + "] " + childText.getName() + ", Price : " + childText.getPrice();
+        //txtListChild.setText(s);
         return convertView;
     }
 
@@ -86,7 +86,7 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent)
     {
-        String headerTitle = (String) getGroup(groupPosition);
+        final Seller headerTitle = (Seller) getGroup(groupPosition);
         if (convertView == null)
         {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -95,7 +95,7 @@ public class MainListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        lblListHeader.setText(headerTitle.getName());
 
         return convertView;
     }

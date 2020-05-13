@@ -8,10 +8,10 @@ import java.util.*;
 
 public class MenuRequest extends StringRequest
 {
-    private static final String URL = "http://10.0.2.2:8080/menu";
+    private static final String URL = "http://10.0.2.2:8080/food";
     private Map<String, String> params;
 
-    public MenuRequest (int id, Response.Listener<String> listener)
+    public MenuRequest (Response.Listener<String> listener)
     {
         super(Method.GET, URL, listener, null);
         params = new HashMap<>();

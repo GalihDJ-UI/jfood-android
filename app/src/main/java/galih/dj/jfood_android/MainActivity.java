@@ -2,12 +2,16 @@ package galih.dj.jfood_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ExpandableListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +22,8 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity
 {
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
     private ArrayList<Seller> listSeller = new ArrayList<>();
     private ArrayList<Food> foodIdList = new ArrayList<>();
     private HashMap<Seller, ArrayList<Food>> childMapping = new HashMap<>();
@@ -43,17 +49,48 @@ public class MainActivity extends AppCompatActivity
                 {
                     JSONArray jsonResponse = new JSONArray(response);
 
-                    for (int i = 0; i < jsonResponse.length(); i++) {
+                    for (int i = 0; i < jsonResponse.length(); i++)
+                    {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                         JSONObject food = jsonResponse.getJSONObject(i);
                         JSONObject seller = food.getJSONObject("seller");
                         JSONObject location = seller.getJSONObject("location");
 
-                        listSeller.add(new Seller(seller.getInt("id"), seller.getString("name"), seller.getString("email"),
-                                seller.getString("phoneNumber"), new Location(location.getString("province"),
-                                location.getString("description"), location.getString("city"))));
+                        Location newLocation = new Location(
+                                location.getString("province"),
+                                location.getString("description"),
+                                location.getString("city"));
 
-                        foodIdList.add(new Food(food.getInt("id"), food.getString("name"),
-                                listSeller.get(i), food.getInt("price"), food.getString("category")));
+                        Seller newSeller = new Seller(
+                                seller.getInt("id"),
+                                seller.getString("name"),
+                                seller.getString("email"),
+                                seller.getString("phoneNumber"),
+                                newLocation);
+
+                        Log.e("SELLER", seller.getString("name"));
+
+                        Food newFood = new Food(
+                                food.getInt("id"),
+                                food.getString("name"),
+                                newSeller,
+                                food.getInt("price"),
+                                food.getString("category"));
+
+                        foodIdList.add(newFood);
+
+                        boolean status = true;
+                        for(Seller sellerStat : listSeller)
+                        {
+                            if(sellerStat.getId() == newSeller.getId())
+                            {
+                                status = false;
+                            }
+                        }
+                        if(status)
+                        {
+                            listSeller.add(newSeller);
+                        }
                     }
 
                     for (Seller sel : listSeller)
@@ -61,7 +98,8 @@ public class MainActivity extends AppCompatActivity
                         ArrayList<Food> temp = new ArrayList<>();
                         for (Food food : foodIdList)
                         {
-                            if (food.getSeller().getName().equals(sel.getName()) || food.getSeller().getEmail().equals(sel.getEmail()) || food.getSeller().getPhoneNumber().equals(sel.getPhoneNumber())) {
+                            if(food.getSeller().getId() == sel.getId())
+                            {
                                 temp.add(food);
                             }
                         }
@@ -75,6 +113,9 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
+        MenuRequest menuRequest = new MenuRequest(responseListener);
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        queue.add(menuRequest);
     }
 }
 
