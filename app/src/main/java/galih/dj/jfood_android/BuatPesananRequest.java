@@ -18,7 +18,7 @@ public class BuatPesananRequest extends StringRequest
         params = new HashMap<>();
         params.put("foods", foodList);
         params.put("customer", customerId);
-        params.put("deliveryFee", "0");
+        params.put("deliveryFee", "5000");
     }
 
     public BuatPesananRequest(String foodList, String customerId, String promoCode, Response.Listener<String> listener)

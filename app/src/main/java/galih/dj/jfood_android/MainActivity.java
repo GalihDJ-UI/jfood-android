@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import android.app.AlertDialog;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,13 +26,14 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
 {
 
+    //private int deliveryFee = 5000;
+    //private String promoCode;
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     private ArrayList<Seller> listSeller = new ArrayList<>();
     private ArrayList<Food> foodIdList = new ArrayList<>();
     private HashMap<Seller, ArrayList<Food>> childMapping = new HashMap<>();
     private static int currentUserId;
-    private static String currentUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,11 +45,11 @@ public class MainActivity extends AppCompatActivity
         if(extras!=null)
         {
             currentUserId = extras.getInt("currentUserId");
-            currentUserName = extras.getString("currentUserName");
         }
 
         expListView = findViewById(R.id.lvExp);
         final Button btnCheckout = findViewById(R.id.btnCheckout);
+        //Toast.makeText(MainActivity.this, String.valueOf(currentUserId), Toast.LENGTH_LONG).show();
         refreshList();
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener()
@@ -67,9 +69,9 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("item_name",foodName);
                 intent.putExtra("item_category",foodCategory);
                 intent.putExtra("item_price",foodPrice);
-
+                //intent.putExtra("item_deliveryfee",deliveryFee);
+                //intent.putExtra("item_promocode",promoCode);
                 intent.putExtra("currentUserId", currentUserId);
-                intent.putExtra("currentUserName", currentUserName);
 
                 startActivity(intent);
                 return true;
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent intent = new Intent(MainActivity.this, SelesaiPesananActivity.class);
-                intent.putExtra("invoiceUserId", currentUserId);
+                intent.putExtra("currentUserId", currentUserId);
                 startActivity(intent);
             }
         });

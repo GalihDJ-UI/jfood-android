@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class PesananBatalRequest extends StringRequest
 {
-    private static final String URL = "http://10.0.2.2:8080/invoiceStatus/";
+    private static final String URL = "http://10.0.2.2:8080/invoice/invoiceStatus/";
     private Map<String, String> params;
     private String invoiceStatus = "Canceled";
 
@@ -17,8 +17,8 @@ public class PesananBatalRequest extends StringRequest
     {
         super(Method.PUT, URL+invoiceId, listener, null);
         params = new HashMap<>();
+        params.put("id", invoiceId);
         params.put("status", invoiceStatus);
-
     }
 
     @Override

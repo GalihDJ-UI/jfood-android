@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity
         final Button btnLogin = findViewById(R.id.btnLogin);
         final TextView tvRegister = findViewById(R.id.tvRegister);
 
+
         btnLogin.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -52,7 +53,7 @@ public class LoginActivity extends AppCompatActivity
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 loginIntent.putExtra("currentUserId", jsonObject.getInt("id"));
-                                loginIntent.putExtra("currentUserName", jsonObject.getString("name"));
+                                //loginIntent.putExtra("currentUserName", jsonObject.getString("name"));
                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(loginIntent);
                                 finish();
@@ -86,7 +87,7 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });

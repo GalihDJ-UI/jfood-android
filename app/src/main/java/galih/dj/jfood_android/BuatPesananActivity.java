@@ -32,8 +32,8 @@ public class BuatPesananActivity extends AppCompatActivity
     private String foodCategory;
     private double foodPrice;
     private String promoCode;
+    private double deliveryFee = 5000;
     private String selectedPayment;
-    private String currentUserName;
 
     //@SuppressLint("SetTextI18n")
     @Override
@@ -43,37 +43,37 @@ public class BuatPesananActivity extends AppCompatActivity
         setContentView(R.layout.activity_buat_pesanan);
 
         //initialize component
-        final TextView tvTextCode = findViewById(R.id.textCode);
-        final TextView tvFoodName = findViewById(R.id.food_name);
-        final TextView tvFoodCategory = findViewById(R.id.food_category);
-        final TextView tvFoodPrice = findViewById(R.id.food_price);
-        final TextView tvTotalPrice = findViewById(R.id.total_price);
+        final TextView textCode = findViewById(R.id.textCode);
+        final TextView food_name = findViewById(R.id.food_name);
+        final TextView food_category = findViewById(R.id.food_category);
+        final TextView food_price = findViewById(R.id.food_price);
+        final TextView total_price = findViewById(R.id.total_price);
         final RadioGroup radioGroup = findViewById(R.id.radioGroup);
-        final EditText etPromoCode = findViewById(R.id.promo_code);
-        final Button btnCount = findViewById(R.id.hitung);
-        final Button btnOrder = findViewById(R.id.pesan);
+        final EditText promo_code = findViewById(R.id.promo_code);
+        final Button hitung = findViewById(R.id.hitung);
+        final Button pesan = findViewById(R.id.pesan);
 
         //bundle variable
         Bundle extras = getIntent().getExtras();
         if (extras != null)
         {
             currentUserId = extras.getInt("currentUserId");
-            currentUserName = extras.getString("currentUserName");
             foodId = extras.getInt("item_id");
             foodName = extras.getString("item_name");
             foodCategory = extras.getString("item_category");
             foodPrice = extras.getInt("item_price");
+            //promoCode = extras.getString("item_promocode");
         }
 
         //initial value
-        etPromoCode.setVisibility(View.GONE);
-        tvTextCode.setVisibility(View.GONE);
-        btnOrder.setVisibility(View.GONE);
+        promo_code.setVisibility(View.GONE);
+        textCode.setVisibility(View.GONE);
+        pesan.setVisibility(View.GONE);
 
-        tvFoodName.setText(foodName);
-        tvFoodCategory.setText(foodCategory);
-        tvFoodPrice.setText("Rp. " + (int) foodPrice);
-        tvTotalPrice.setText("Rp. " + "0");
+        food_name.setText(foodName);
+        food_category.setText(foodCategory);
+        food_price.setText("Rp. " + (int) foodPrice);
+        total_price.setText("Rp. " + "0");
 
         //radio button check cash or cashless
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -86,20 +86,20 @@ public class BuatPesananActivity extends AppCompatActivity
                 switch (selectRadio)
                 {
                     case "Via CASHLESS":
-                        tvTextCode.setVisibility(View.VISIBLE);
-                        etPromoCode.setVisibility(View.VISIBLE);
+                        textCode.setVisibility(View.VISIBLE);
+                        promo_code.setVisibility(View.VISIBLE);
                         break;
 
                     case "Via CASH":
-                        etPromoCode.setVisibility(View.GONE);
-                        tvTextCode.setVisibility(View.GONE);
+                        promo_code.setVisibility(View.GONE);
+                        textCode.setVisibility(View.GONE);
                         break;
                 }
             }
         });
 
-        //radio button check cash or cashless for count
-        btnCount.setOnClickListener(new View.OnClickListener()
+        //count
+        hitung.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -110,12 +110,12 @@ public class BuatPesananActivity extends AppCompatActivity
                 switch (selectRadio)
                 {
                     case "Via CASH":
-                        tvTotalPrice.setText("Rp. " + foodPrice);
+                        total_price.setText("Rp. " + (foodPrice + deliveryFee));
                         break;
 
                     case "Via CASHLESS":
                         //Get Promo Code String
-                        promoCode = etPromoCode.getText().toString();
+                        promoCode = promo_code.getText().toString();
                         //Listener Promo
                         final Response.Listener<String> promoResponse = new Response.Listener<String>()
                         {
@@ -125,7 +125,7 @@ public class BuatPesananActivity extends AppCompatActivity
                                 if (promoCode.isEmpty())
                                 {
                                     Toast.makeText(BuatPesananActivity.this, "No promo code applied!", Toast.LENGTH_LONG).show();
-                                    tvTotalPrice.setText("Rp. " + foodPrice);
+                                    total_price.setText("Rp. " + foodPrice);
                                 }
 
                                 else
@@ -154,7 +154,7 @@ public class BuatPesananActivity extends AppCompatActivity
                                             {
                                                 Toast.makeText(BuatPesananActivity.this, "Promo code applied!", Toast.LENGTH_LONG).show();
                                                 //Set Total Price
-                                                tvTotalPrice.setText("Rp. " + (foodPrice - promoDiscountPrice));
+                                                total_price.setText("Rp. " + (foodPrice - promoDiscountPrice));
                                             }
                                         }
                                     }
@@ -162,7 +162,7 @@ public class BuatPesananActivity extends AppCompatActivity
                                     catch (JSONException e)
                                     {
                                         Toast.makeText(BuatPesananActivity.this, "Promo code not found!", Toast.LENGTH_LONG).show();
-                                        tvTotalPrice.setText("Rp. " + foodPrice);
+                                        total_price.setText("Rp. " + foodPrice);
                                     }
                                 }
 
@@ -183,13 +183,13 @@ public class BuatPesananActivity extends AppCompatActivity
                         break;
                 }
 
-                btnCount.setVisibility(View.GONE);
-                btnOrder.setVisibility(View.VISIBLE);
+                hitung.setVisibility(View.GONE);
+                pesan.setVisibility(View.VISIBLE);
             }
         });
 
         //pesan
-        btnOrder.setOnClickListener(new View.OnClickListener()
+        pesan.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
@@ -213,18 +213,16 @@ public class BuatPesananActivity extends AppCompatActivity
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("currentUserId", currentUserId);
-                                intent.putExtra("currentUserName", currentUserName);
                                 startActivity(intent);
                             }
 
                             else
                             {
-                                btnOrder.setVisibility(View.GONE);
-                                Toast.makeText(BuatPesananActivity.this, "Order failed!", Toast.LENGTH_LONG).show();
+                                pesan.setVisibility(View.GONE);
+                                Toast.makeText(BuatPesananActivity.this, "You still have pending order to be finished!", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 intent.putExtra("currentUserId", currentUserId);
-                                intent.putExtra("currentUserName", currentUserName);
                                 startActivity(intent);
                             }
                         }
@@ -232,20 +230,20 @@ public class BuatPesananActivity extends AppCompatActivity
                         catch (JSONException e)
                         {
                             e.printStackTrace();
-                            Toast.makeText(BuatPesananActivity.this, "Mampus gagal", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BuatPesananActivity.this, "Order failed!", Toast.LENGTH_LONG).show();
                         }
                     }
                 };
 
                 if(selected.equals("Via CASH"))
                 {
-                    request = new BuatPesananRequest(String.valueOf(foodId), String.valueOf(currentUserId) ,responseListener);
+                    request = new BuatPesananRequest(String.valueOf(foodId), String.valueOf(currentUserId), responseListener);
                     RequestQueue queuePesan = Volley.newRequestQueue(BuatPesananActivity.this);
                     queuePesan.add(request);
                 }
                 else if(selected.equals("Via CASHLESS"))
                 {
-                    request = new BuatPesananRequest(String.valueOf(foodId), String.valueOf(currentUserId) ,promoCode, responseListener);
+                    request = new BuatPesananRequest(String.valueOf(foodId), String.valueOf(currentUserId), promoCode, responseListener);
                     RequestQueue queuePesan = Volley.newRequestQueue(BuatPesananActivity.this);
                     queuePesan.add(request);
                 }
