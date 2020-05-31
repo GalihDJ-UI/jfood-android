@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">jfood-android</string>
+    <string name="app_name">JFood</string>
     <string name="login">Login</string>
     <string name="register_now">Register Now</string>
     <string name="register">Register</string>

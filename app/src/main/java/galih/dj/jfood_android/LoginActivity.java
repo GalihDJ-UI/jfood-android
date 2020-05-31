@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject != null)
                             {
-                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 loginIntent.putExtra("currentUserId", jsonObject.getInt("id"));
                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity
 
                         catch (JSONException e)
                         {
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Login Failed! Wrong email or password!", Toast.LENGTH_LONG).show();
                         }
                     }
                 };
