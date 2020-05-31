@@ -49,11 +49,10 @@ public class SelesaiPesananActivity extends AppCompatActivity
         }
 
         //Toast.makeText(SelesaiPesananActivity.this, String.valueOf(currentUserId), Toast.LENGTH_LONG).show();
-
-        final TextView static_seller = findViewById(R.id.static_seller);
-
+        final TextView static_invoice_id = findViewById(R.id.static_invoice_id);
         final TextView static_invoice_Customer = findViewById(R.id.static_invoice_Customer);
         final TextView static_invoice_foodName= findViewById(R.id.static_invoice_foodName);
+        final TextView invoice_id = findViewById(R.id.invoice_id);
         final TextView invoice_customer_name = findViewById(R.id.invoice_customer_name);
         final TextView invoice_food_name = findViewById(R.id.invoice_food_name);
 
@@ -63,6 +62,8 @@ public class SelesaiPesananActivity extends AppCompatActivity
         final TextView invoice_seller_name = findViewById(R.id.invoice_seller_name);
         final TextView invoice_seller_city = findViewById(R.id.invoice_seller_city);
         final TextView invoice_seller_date = findViewById(R.id.invoice_seller_date);
+
+        final TextView static_seller = findViewById(R.id.static_seller);
 
         final TextView static_invoice_warning = findViewById(R.id.static_invoice_warning);
 
@@ -78,17 +79,17 @@ public class SelesaiPesananActivity extends AppCompatActivity
         final Button btnCancel = findViewById(R.id.btnCancel);
         final Button btnDone = findViewById(R.id.btnDone);
 
-        btnCancel.setVisibility(View.GONE);
-        btnDone.setVisibility(View.GONE);
-//
-        static_seller.setVisibility(View.GONE);
-//
+
+        static_invoice_id.setVisibility(View.GONE);
         static_invoice_Customer.setVisibility(View.GONE);
         static_invoice_foodName.setVisibility(View.GONE);
+        invoice_id.setVisibility(View.GONE);
         invoice_customer_name.setVisibility(View.GONE);
         invoice_food_name.setVisibility(View.GONE);
 
         static_invoice_warning.setVisibility(View.VISIBLE);
+
+        static_seller.setVisibility(View.GONE);
 
         static_invoice_seller.setVisibility(View.GONE);
         static_invoice_seller_city.setVisibility(View.GONE);
@@ -96,7 +97,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
         invoice_seller_name.setVisibility(View.GONE);
         invoice_seller_city.setVisibility(View.GONE);
         invoice_seller_date.setVisibility(View.GONE);
-//
+
         static_invoice_delivery_fee.setVisibility(View.GONE);
         static_invoice_promo_code.setVisibility(View.GONE);
         static_invoice_payment_type.setVisibility(View.GONE);
@@ -105,6 +106,9 @@ public class SelesaiPesananActivity extends AppCompatActivity
         invoice_delivery_fee.setVisibility(View.GONE);
         invoice_payment_type.setVisibility(View.GONE);
         invoice_total_price.setVisibility(View.GONE);
+
+        btnCancel.setVisibility(View.GONE);
+        btnDone.setVisibility(View.GONE);
 
         final Response.Listener<String> responseListener = new Response.Listener<String>()
         {
@@ -130,6 +134,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
                         date = jsonInvoice.getString("date");
                         paymentType = jsonInvoice.getString("paymentType");
                         totalPrice = jsonInvoice.getInt ("totalPrice");
+                        invoice_id.setText(String.valueOf(invoiceId));
                         invoice_seller_date.setText(date.substring(0,10));
                         invoice_payment_type.setText(paymentType);
                         invoice_total_price.setText("Rp. " + totalPrice);
@@ -156,13 +161,17 @@ public class SelesaiPesananActivity extends AppCompatActivity
 
                         if (invoiceStatus.equals("Ongoing"))
                         {
-                            btnCancel.setVisibility(View.VISIBLE);
-                            btnDone.setVisibility(View.VISIBLE);
 
+                            static_invoice_id.setVisibility(View.VISIBLE);
                             static_invoice_Customer.setVisibility(View.VISIBLE);
                             static_invoice_foodName.setVisibility(View.VISIBLE);
+                            invoice_id.setVisibility(View.VISIBLE);
                             invoice_customer_name.setVisibility(View.VISIBLE);
                             invoice_food_name.setVisibility(View.VISIBLE);
+
+                            static_invoice_warning.setVisibility(View.GONE);
+
+                            static_seller.setVisibility(View.VISIBLE);
 
                             static_invoice_seller.setVisibility(View.VISIBLE);
                             static_invoice_seller_city.setVisibility(View.VISIBLE);
@@ -171,12 +180,13 @@ public class SelesaiPesananActivity extends AppCompatActivity
                             invoice_seller_city.setVisibility(View.VISIBLE);
                             invoice_seller_date.setVisibility(View.VISIBLE);
 
-                            static_invoice_warning.setVisibility(View.GONE);
-
                             static_invoice_payment_type.setVisibility(View.VISIBLE);
                             static_invoice_total_price.setVisibility(View.VISIBLE);
                             invoice_payment_type.setVisibility(View.VISIBLE);
                             invoice_total_price.setVisibility(View.VISIBLE);
+
+                            btnCancel.setVisibility(View.VISIBLE);
+                            btnDone.setVisibility(View.VISIBLE);
 
                             if (paymentType.equals("Cash"))
                             {

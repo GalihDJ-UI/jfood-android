@@ -50,6 +50,8 @@ public class BuatPesananActivity extends AppCompatActivity
         final TextView total_price = findViewById(R.id.total_price);
         final RadioGroup radioGroup = findViewById(R.id.radioGroup);
         final EditText promo_code = findViewById(R.id.promo_code);
+        final TextView static_delivery_fee = findViewById(R.id.static_delivery_fee);
+        final TextView delivery_fee = findViewById(R.id.delivery_fee);
         final Button hitung = findViewById(R.id.hitung);
         final Button pesan = findViewById(R.id.pesan);
 
@@ -62,18 +64,21 @@ public class BuatPesananActivity extends AppCompatActivity
             foodName = extras.getString("item_name");
             foodCategory = extras.getString("item_category");
             foodPrice = extras.getInt("item_price");
-            //promoCode = extras.getString("item_promocode");
         }
 
-        //initial value
+        //initial visibility
         promo_code.setVisibility(View.GONE);
         textCode.setVisibility(View.GONE);
+        static_delivery_fee.setVisibility(View.GONE);
+        delivery_fee.setVisibility(View.GONE);
+
         pesan.setVisibility(View.GONE);
 
         food_name.setText(foodName);
         food_category.setText(foodCategory);
         food_price.setText("Rp. " + (int) foodPrice);
         total_price.setText("Rp. " + "0");
+        delivery_fee.setText("RP. " + deliveryFee);
 
         //radio button check cash or cashless
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -88,11 +93,15 @@ public class BuatPesananActivity extends AppCompatActivity
                     case "Via CASHLESS":
                         textCode.setVisibility(View.VISIBLE);
                         promo_code.setVisibility(View.VISIBLE);
+                        static_delivery_fee.setVisibility(View.GONE);
+                        delivery_fee.setVisibility(View.GONE);
                         break;
 
                     case "Via CASH":
-                        promo_code.setVisibility(View.GONE);
                         textCode.setVisibility(View.GONE);
+                        promo_code.setVisibility(View.GONE);
+                        static_delivery_fee.setVisibility(View.VISIBLE);
+                        delivery_fee.setVisibility(View.VISIBLE);
                         break;
                 }
             }

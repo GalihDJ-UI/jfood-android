@@ -2,10 +2,12 @@ package galih.dj.jfood_android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -26,6 +28,8 @@ public class RegisterActivity extends AppCompatActivity
         final EditText regName = findViewById(R.id.regName);
         final EditText regEmail = findViewById(R.id.regEmail);
         final EditText regPassword = findViewById(R.id.regPassword);
+        final TextView tvLogin = findViewById(R.id.tvLogin);
+
         Button btnRegister = findViewById(R.id.btnRegister);
 
         btnRegister.setOnClickListener(new View.OnClickListener()
@@ -48,16 +52,31 @@ public class RegisterActivity extends AppCompatActivity
                             {
                                 Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_LONG).show();
                             }
-                        } catch (JSONException e) {
+                        }
+
+                        catch (JSONException e)
+                        {
                             Toast.makeText(RegisterActivity.this, "Register Failed", Toast.LENGTH_LONG).show();
                         }
                     }
                 };
 
-
                 RegisterRequest registerRequest = new RegisterRequest(name, email, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //back to login page
+        tvLogin.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }

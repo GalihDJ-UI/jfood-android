@@ -11,25 +11,29 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainListAdapter extends BaseExpandableListAdapter {
+public class MainListAdapter extends BaseExpandableListAdapter
+{
     private Context _context;
     private ArrayList<Seller> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<Seller, ArrayList<Food>> _listDataChild;
 
-    public MainListAdapter(Context context, ArrayList<Seller> listDataHeader, HashMap<Seller, ArrayList<Food>> listChildData) {
+    public MainListAdapter(Context context, ArrayList<Seller> listDataHeader, HashMap<Seller, ArrayList<Food>> listChildData)
+    {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosititon)
+    {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
+    public long getChildId(int groupPosition, int childPosition)
+    {
         return childPosition;
     }
 
@@ -38,7 +42,8 @@ public class MainListAdapter extends BaseExpandableListAdapter {
 
         final Food childText = (Food) getChild(groupPosition, childPosition);
 
-        if (convertView == null) {
+        if (convertView == null)
+        {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_food, null);
         }
@@ -50,31 +55,37 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
+    public int getChildrenCount(int groupPosition)
+    {
         return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
+    public Object getGroup(int groupPosition)
+    {
         return this._listDataHeader.get(groupPosition);
     }
 
     @Override
-    public int getGroupCount() {
+    public int getGroupCount()
+    {
         return this._listDataHeader.size();
     }
 
     @Override
-    public long getGroupId(int groupPosition) {
+    public long getGroupId(int groupPosition)
+    {
         return groupPosition;
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
+    {
 
         final Seller headerTitle = (Seller) getGroup(groupPosition);
 
-        if (convertView == null) {
+        if (convertView == null)
+        {
             LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_seller, null);
         }
@@ -87,12 +98,14 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public boolean hasStableIds() {
+    public boolean hasStableIds()
+    {
         return false;
     }
 
     @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
+    public boolean isChildSelectable(int groupPosition, int childPosition)
+    {
         return true;
     }
 }

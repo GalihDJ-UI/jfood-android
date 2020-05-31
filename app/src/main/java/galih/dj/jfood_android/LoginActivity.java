@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 loginIntent.putExtra("currentUserId", jsonObject.getInt("id"));
-                                //loginIntent.putExtra("currentUserName", jsonObject.getString("name"));
                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(loginIntent);
                                 finish();
@@ -82,6 +81,7 @@ public class LoginActivity extends AppCompatActivity
             }
         });
 
+        //go to register page
         tvRegister.setOnClickListener(new View.OnClickListener()
         {
             @Override
