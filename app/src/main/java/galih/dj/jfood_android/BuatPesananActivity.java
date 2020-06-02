@@ -35,14 +35,14 @@ public class BuatPesananActivity extends AppCompatActivity
     private double deliveryFee = 5000;
     private String selectedPayment;
 
-    //@SuppressLint("SetTextI18n")
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buat_pesanan);
 
-        //initialize component
+        //component finalization
         final TextView textCode = findViewById(R.id.textCode);
         final TextView food_name = findViewById(R.id.food_name);
         final TextView food_category = findViewById(R.id.food_category);
@@ -66,7 +66,7 @@ public class BuatPesananActivity extends AppCompatActivity
             foodPrice = extras.getInt("item_price");
         }
 
-        //initial visibility
+        //initial component visibility
         promo_code.setVisibility(View.GONE);
         textCode.setVisibility(View.GONE);
         static_delivery_fee.setVisibility(View.GONE);
@@ -107,7 +107,7 @@ public class BuatPesananActivity extends AppCompatActivity
             }
         });
 
-        //count
+        //count button function
         hitung.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -197,7 +197,7 @@ public class BuatPesananActivity extends AppCompatActivity
             }
         });
 
-        //pesan
+        //order button function
         pesan.setOnClickListener(new View.OnClickListener()
         {
             @Override

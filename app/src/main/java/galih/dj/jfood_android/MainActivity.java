@@ -26,8 +26,6 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity
 {
 
-    //private int deliveryFee = 5000;
-    //private String promoCode;
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     private ArrayList<Seller> listSeller = new ArrayList<>();
@@ -35,9 +33,12 @@ public class MainActivity extends AppCompatActivity
     private HashMap<Seller, ArrayList<Food>> childMapping = new HashMap<>();
     private static int currentUserId;
 
+    LoginSession sharedPrefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        sharedPrefManager = new LoginSession(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -47,9 +48,15 @@ public class MainActivity extends AppCompatActivity
             currentUserId = extras.getInt("currentUserId");
         }
 
+        //
+        if(sharedPrefManager.getSP_LoggedIn())
+        {
+            currentUserId = sharedPrefManager.getSP_IdCustomer();
+        }
+
         expListView = findViewById(R.id.lvExp);
         final Button btnCheckout = findViewById(R.id.btnCheckout);
-        //Toast.makeText(MainActivity.this, String.valueOf(currentUserId), Toast.LENGTH_LONG).show();
+        final Button btnLogout = findViewById(R.id.btnLogout);
         refreshList();
 
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener()
@@ -69,8 +76,6 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra("item_name",foodName);
                 intent.putExtra("item_category",foodCategory);
                 intent.putExtra("item_price",foodPrice);
-                //intent.putExtra("item_deliveryfee",deliveryFee);
-                //intent.putExtra("item_promocode",promoCode);
                 intent.putExtra("currentUserId", currentUserId);
 
                 startActivity(intent);
@@ -78,6 +83,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+        //button checkout function
         btnCheckout.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -86,6 +93,21 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, SelesaiPesananActivity.class);
                 intent.putExtra("currentUserId", currentUserId);
                 startActivity(intent);
+            }
+        });
+
+
+        //button logout function
+        btnLogout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Toast.makeText(MainActivity.this, "Logout Successful!", Toast.LENGTH_LONG).show();
+                sharedPrefManager.saveSPBoolean(LoginSession.sp_LoggedIn, false);
+                startActivity(new Intent(MainActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
             }
         });
     }
@@ -99,6 +121,7 @@ public class MainActivity extends AppCompatActivity
             {
                 try
                 {
+                    //JSONArray and JSONObject for seller and food
                     JSONArray jsonResponse = new JSONArray(response);
                     for (int i=0; i<jsonResponse.length(); i++)
                     {
@@ -167,6 +190,7 @@ public class MainActivity extends AppCompatActivity
                     listAdapter = new MainListAdapter(MainActivity.this, listSeller, childMapping);
                     expListView.setAdapter(listAdapter);
                 }
+
                 catch (JSONException e)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);

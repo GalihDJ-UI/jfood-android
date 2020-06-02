@@ -14,8 +14,7 @@ import java.util.HashMap;
 public class MainListAdapter extends BaseExpandableListAdapter
 {
     private Context _context;
-    private ArrayList<Seller> _listDataHeader; // header titles
-    // child data in format of header title, child title
+    private ArrayList<Seller> _listDataHeader;
     private HashMap<Seller, ArrayList<Food>> _listDataChild;
 
     public MainListAdapter(Context context, ArrayList<Seller> listDataHeader, HashMap<Seller, ArrayList<Food>> listChildData)

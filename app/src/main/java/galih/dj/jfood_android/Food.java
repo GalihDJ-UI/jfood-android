@@ -1,5 +1,12 @@
 package galih.dj.jfood_android;
 
+/**
+ * Class yang menyimpan dan mengatur data makanan
+ *
+ * @author Galih Damar Jati
+ * @version 29 Mei 2020
+ */
+
 public class Food
 {
     private int id;
@@ -8,9 +15,16 @@ public class Food
     private String category;
     private Seller seller;
 
+    /**
+     * Constructor untuk object pada class food
+     * @param id
+     * @param name
+     * @param seller
+     * @param price
+     * @param category
+     */
     public Food(int id, String name, Seller seller, int price, String category)
     {
-        // initialise instance variables
         this.id = id;
         this.name = name;
         this.seller = seller;
@@ -19,35 +33,32 @@ public class Food
     }
 
     /**
-     * Digunakan untuk mendapatkan id makanan
+     * Method getter untuk mendapatkan id makanan
      *
      * @return Isi variable id
      */
     public int getId()
     {
-        // put your code here
         return id;
     }
 
     /**
-     * Digunakan untuk mendapatkan nama makanan
+     * Method getter untuk mendapatkan nama makanan
      *
      * @return Isi variable name
      */
     public String getName()
     {
-        // put your code here
         return name;
     }
 
     /**
-     * Digunakan untuk mendapatkan nama penjual
+     * Method getter untuk mendapatkan nama penjual
      *
      * @return Isi variable seller
      */
     public Seller getSeller()
     {
-        // put your code here
         return seller;
     }
 
@@ -63,7 +74,7 @@ public class Food
     }
 
     /**
-     * Digunakan untuk mendapatkan kategori makanan
+     * Method getter untuk mendapatkan kategori makanan
      *
      * @return Isi variable category
      */
@@ -74,62 +85,52 @@ public class Food
     }
 
     /**
-     * Mengatur value dari variable id
+     * Method setter untuk mengatur id makanan
+     * @param id
      *
-
-     * @return Value pada parameter dimasukkan ke variable id
      */
     public void setId(int id)
     {
-        // put your code here
         this.id = id;
     }
 
     /**
-     * Mengatur value dari variable name
+     * Method setter untuk mengatur nama makanan
+     * @param name
      *
-
-     * @return Value pada parameter dimasukkan ke variable name
      */
     public void setName(String name)
     {
-        // put your code here
         this.name = name;
     }
 
     /**
-     * Mengatur value dari variable seller
+     * Method setter untuk mengatur penjual
+     * @param seller
      *
-
-     * @return Value pada parameter dimasukkan ke variable seller
      */
     public void setSeller(Seller seller)
     {
-        // put your code here
         this.seller = seller;
     }
 
     /**
-     * Mengatur value dari variable price
+     * Method setter untuk mengatur harga makanan
+     * @param price
      *
-
-     * @return Value pada parameter dimasukkan ke variable price
      */
     public void setPrice(int price)
     {
-        // put your code here
         this.price = price;
     }
 
     /**
-     * Mengatur value dari variable string
+     * Method setter untuk mengatur kategori makanan
+     * @param category
      *
-
-     * @return Value pada parameter dimasukkan ke variable string
      */
     public void setCategory(String category)
     {
-        // put your code here
         this.category = category;
     }
 }

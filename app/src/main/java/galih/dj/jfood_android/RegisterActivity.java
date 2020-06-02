@@ -25,13 +25,15 @@ public class RegisterActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        //component finalization
         final EditText regName = findViewById(R.id.regName);
         final EditText regEmail = findViewById(R.id.regEmail);
         final EditText regPassword = findViewById(R.id.regPassword);
         final TextView tvLogin = findViewById(R.id.tvLogin);
-
         Button btnRegister = findViewById(R.id.btnRegister);
 
+        //register button function
         btnRegister.setOnClickListener(new View.OnClickListener()
         {
             @Override

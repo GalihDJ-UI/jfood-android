@@ -10,7 +10,7 @@
         android:layout_height="55dip"
         android:orientation="vertical"
         android:padding="8dp"
-        android:background="#000000"
+        android:background="#C0000000"
         tools:ignore="MissingConstraints">
 
         <TextView

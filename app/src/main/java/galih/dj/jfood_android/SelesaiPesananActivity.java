@@ -48,7 +48,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
             currentUserId = extras.getInt("currentUserId");
         }
 
-        //Toast.makeText(SelesaiPesananActivity.this, String.valueOf(currentUserId), Toast.LENGTH_LONG).show();
+        //component finalization
         final TextView static_invoice_id = findViewById(R.id.static_invoice_id);
         final TextView static_invoice_Customer = findViewById(R.id.static_invoice_Customer);
         final TextView static_invoice_foodName= findViewById(R.id.static_invoice_foodName);
@@ -79,7 +79,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
         final Button btnCancel = findViewById(R.id.btnCancel);
         final Button btnDone = findViewById(R.id.btnDone);
 
-
+        //initial component visibility
         static_invoice_id.setVisibility(View.GONE);
         static_invoice_Customer.setVisibility(View.GONE);
         static_invoice_foodName.setVisibility(View.GONE);
@@ -124,7 +124,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
 
                 try
                 {
-
+                    //JSONArray and JSONObject for the invoice shown
                     JSONArray jsonResponse = new JSONArray(response);
                     for (int i=0; i<jsonResponse.length(); i++)
                     {
@@ -159,6 +159,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
                             invoice_seller_city.setText(location);
                         }
 
+                        //making components visible when an invoice is ongoing
                         if (invoiceStatus.equals("Ongoing"))
                         {
 
@@ -188,6 +189,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
                             btnCancel.setVisibility(View.VISIBLE);
                             btnDone.setVisibility(View.VISIBLE);
 
+                            //if clause to show delivery fee or promo code
                             if (paymentType.equals("Cash"))
                             {
                                 static_invoice_delivery_fee.setVisibility(View.VISIBLE);
@@ -203,7 +205,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
                                 promoCode = jsonInvoice.getString("promo");
                                 if (promoCode.equals(null))
                                 {
-                                    invoice_promo_code.setText("No promo code applied.");
+                                    invoice_promo_code.setText("No promo code applied");
                                 }
 
                                 else
@@ -256,7 +258,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
         queue.add(fetchRequest);
 
 
-        //tombol cancel
+        //cancel button function
         btnCancel.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -288,7 +290,7 @@ public class SelesaiPesananActivity extends AppCompatActivity
             }
         });
 
-        //tombol done
+        //done button function
         btnDone.setOnClickListener(new View.OnClickListener()
         {
             @Override

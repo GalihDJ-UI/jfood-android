@@ -130,7 +130,7 @@
         android:id="@+id/invoice_promo_code"
         android:layout_width="71dp"
         android:layout_height="23dp"
-        android:text="TextView"
+        android:text="No promo code"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.726"

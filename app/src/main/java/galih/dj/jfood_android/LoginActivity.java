@@ -19,20 +19,31 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity
 {
-
+    LoginSession sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        sharedPrefManager = new LoginSession(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //component finalization
         final EditText email_log = findViewById(R.id.email_log);
         final EditText password_log = findViewById(R.id.password_log);
         final Button btnLogin = findViewById(R.id.btnLogin);
         final TextView tvRegister = findViewById(R.id.tvRegister);
 
 
+        //login session shared preference
+        if (sharedPrefManager.getSP_LoggedIn())
+        {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+            finish();
+        }
+
+        //button login function
         btnLogin.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -50,6 +61,9 @@ public class LoginActivity extends AppCompatActivity
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject != null)
                             {
+                                //login session
+                                sharedPrefManager.saveSPBoolean(LoginSession.sp_LoggedIn, true);
+                                sharedPrefManager.saveSPInt(LoginSession.sp_IdCustomer, jsonObject.getInt("id"));
                                 Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
                                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 loginIntent.putExtra("currentUserId", jsonObject.getInt("id"));
