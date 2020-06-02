@@ -250,6 +250,7 @@ public class BuatPesananActivity extends AppCompatActivity
                     RequestQueue queuePesan = Volley.newRequestQueue(BuatPesananActivity.this);
                     queuePesan.add(request);
                 }
+
                 else if(selected.equals("Via CASHLESS"))
                 {
                     request = new BuatPesananRequest(String.valueOf(foodId), String.valueOf(currentUserId), promoCode, responseListener);

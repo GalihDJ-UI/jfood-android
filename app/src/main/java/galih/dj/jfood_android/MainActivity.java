@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
             currentUserId = extras.getInt("currentUserId");
         }
 
-        //
+
         if(sharedPrefManager.getSP_LoggedIn())
         {
             currentUserId = sharedPrefManager.getSP_IdCustomer();
